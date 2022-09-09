@@ -14,6 +14,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
     {
         public IConfiguration Configuration { get; set; }
         public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+        public DbSet<Tech> Techs { get; set; }
 
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
         {
@@ -29,15 +30,29 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProgrammingLanguage>(p =>
+            modelBuilder.Entity<ProgrammingLanguage>(a =>
             {
-                p.ToTable("ProgrammingLanguages").HasKey(k => k.Id);
-                p.Property(p => p.Id).HasColumnName("Id");
-                p.Property(p => p.Name).HasColumnName("Name");
+                a.ToTable("ProgrammingLanguages").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.Name).HasColumnName("Name");
+                a.HasMany(p => p.Techs);
+            });
+
+            modelBuilder.Entity<Tech>(a =>
+            {
+                a.ToTable("Techs").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.ProgrammingLanguageId).HasColumnName("ProgrammingLanguageId");
+                a.Property(p => p.Name).HasColumnName("Name");
+
+                a.HasOne(p => p.ProgrammingLanguage);
             });
 
             ProgrammingLanguage[] programmingLanguageSeedData = { new(1, "c#"), new(2, "Java") };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(programmingLanguageSeedData);
+
+            Tech[] techSeedData = { new(1,1,"WPF"),new(2,1,"ASP.NET"), new(3, 3, "Spring"), new(4, 3, "JSP") };
+            modelBuilder.Entity<Tech>().HasData(techSeedData);
         }
     }
 }
