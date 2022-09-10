@@ -33,7 +33,14 @@ namespace Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules
 
         public void ProgrammingLanguageShouldBeExistWhenRequested(ProgrammingLanguage programmingLanguage)
         {
-            if (programmingLanguage == null) throw new BusinessException("Programming Language does not exist.");
+            if (programmingLanguage == null) throw new BusinessException("Requested programming language does not exist.");
+        }
+
+        public async Task ProgrammingLanguageShouldExistWhenRequested(int id)
+        {
+            ProgrammingLanguage result = await _programmingLanguageRepository.GetAsync(pl => pl.Id == id);
+
+            if (result == null) throw new BusinessException("Requested programming language does not exist");
         }
     }
 }

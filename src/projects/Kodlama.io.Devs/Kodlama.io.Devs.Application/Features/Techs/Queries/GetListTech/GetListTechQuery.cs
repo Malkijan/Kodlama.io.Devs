@@ -17,7 +17,7 @@ namespace Kodlama.io.Devs.Application.Features.Techs.Queries.GetListTech
 {
     public class GetListTechQuery : IRequest<TechListModel>
     {
-        public PageRequest PageRequest { get; set; }
+        public PageRequest? PageRequest { get; set; }
 
         public class GetListTechQueryHandler : IRequestHandler<GetListTechQuery, TechListModel>
         {

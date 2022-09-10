@@ -48,6 +48,9 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                 a.HasOne(p => p.ProgrammingLanguage);
             });
 
+            modelBuilder.Entity<Tech>().Navigation(x => x.ProgrammingLanguage).AutoInclude();
+            modelBuilder.Entity<ProgrammingLanguage>().Navigation(x => x.Techs).AutoInclude();
+
             ProgrammingLanguage[] programmingLanguageSeedData = { new(1, "c#"), new(2, "Java") };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(programmingLanguageSeedData);
 

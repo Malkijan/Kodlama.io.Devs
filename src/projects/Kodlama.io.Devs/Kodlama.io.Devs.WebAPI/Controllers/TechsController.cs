@@ -1,4 +1,5 @@
 ﻿using Core.Application.Requests;
+using Core.Persistence.Dynamic;
 using Kodlama.io.Devs.Application.Features.Techs.Commands.CreateTech;
 using Kodlama.io.Devs.Application.Features.Techs.Commands.DeleteTech;
 using Kodlama.io.Devs.Application.Features.Techs.Commands.UpdateTech;
@@ -29,7 +30,7 @@ namespace Kodlama.io.Devs.WebAPI.Controllers
         }
         
         [HttpPut]
-        public async Task<IActionResult> Edit([FromBody] UpdateTechCommand updateTechCommand)
+        public async Task<IActionResult> Update([FromBody] UpdateTechCommand updateTechCommand)
         {
             UpdatedTechDto result = await Mediator.Send(updateTechCommand);
             return Ok(result);
@@ -40,6 +41,14 @@ namespace Kodlama.io.Devs.WebAPI.Controllers
         {
             GetListTechQuery getListTechQuery = new GetListTechQuery { PageRequest = pageRequest};
             TechListModel result = await Mediator.Send(getListTechQuery);
+            return Ok(result);
+        }
+        
+        [HttpPost("GetList/Dynamic")]
+        public async Task<ActionResult> GetListByDynamic([FromQuery] PageRequest pageRequest, [FromBody] Dynamic dynamic)
+        {
+            GetListTechByDynamicQuery getListTechByDynamicQuery = new() { PageRequest = pageRequest, Dynamic = dynamic };
+            TechListModel result = await Mediator.Send(getListTechByDynamicQuery);
             return Ok(result);
         }
     }

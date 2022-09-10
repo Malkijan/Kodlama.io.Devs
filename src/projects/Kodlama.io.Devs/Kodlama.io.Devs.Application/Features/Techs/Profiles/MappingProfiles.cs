@@ -18,16 +18,16 @@ namespace Kodlama.io.Devs.Application.Features.Techs.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<Tech, CreatedTechDto>().ReverseMap();
+            CreateMap<Tech, CreatedTechDto>().ForMember(c=>c.ProgrammingLanguageName, opt=>opt.MapFrom(pl=>pl.ProgrammingLanguage.Name)).ReverseMap();
             CreateMap<Tech, CreateTechCommand>().ReverseMap();
 
-            CreateMap<Tech, UpdatedTechDto>().ReverseMap();
-            CreateMap<Tech, UpdateTechCommand>().ForMember(c=>c.ProgrammingLanguageId, opt=>opt.MapFrom(pl=>pl.ProgrammingLanguage.Id)).ReverseMap();
+            CreateMap<Tech, UpdatedTechDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(pl => pl.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<Tech, UpdateTechCommand>().ReverseMap();
 
             CreateMap<Tech, DeletedTechDto>().ReverseMap();
             CreateMap<Tech, DeleteTechCommand>().ReverseMap();
 
-            CreateMap<Tech, TechListDto>().ForMember(t=>t.ProgrammingLanguageName, opt=>opt.MapFrom(pl=>pl.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<Tech, TechListDto>().ForMember(t=>t.ProgrammingLanguageName, opt=>opt.MapFrom(pl=>pl.ProgrammingLanguage.Id)).ReverseMap();
 
             CreateMap<IPaginate<Tech>, TechListModel>().ReverseMap();
         }

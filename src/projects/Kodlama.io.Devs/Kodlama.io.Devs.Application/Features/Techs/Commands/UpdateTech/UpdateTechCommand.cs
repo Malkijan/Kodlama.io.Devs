@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules;
 using Kodlama.io.Devs.Application.Features.Techs.Dtos;
+using Kodlama.io.Devs.Application.Features.Techs.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
@@ -21,18 +23,27 @@ namespace Kodlama.io.Devs.Application.Features.Techs.Commands.UpdateTech
         {
             private readonly ITechRepository _techRepository;
             private readonly IMapper _mapper;
+            private readonly TechBusinessRules _techBusinessRules;
+            private readonly ProgrammingLanguageBusinessRules _programmingLanguageBusinessRules;
 
-            public UpdateTechCommandHandler(ITechRepository techRepository, IMapper mapper)
+            public UpdateTechCommandHandler(ITechRepository techRepository, IMapper mapper, TechBusinessRules techBusinessRules, 
+                ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
             {
                 _techRepository = techRepository;
                 _mapper = mapper;
+                _techBusinessRules = techBusinessRules;
+                _programmingLanguageBusinessRules = programmingLanguageBusinessRules;
             }
 
             public async Task<UpdatedTechDto> Handle(UpdateTechCommand request, CancellationToken cancellationToken)
             {
+                await _techBusinessRules.TechCannotBeDuplicatedWhenUpdating(request.Id, request.Name);
+                await _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenRequested(request.ProgrammingLanguageId);
+
                 Tech? mappedTech = _mapper.Map<Tech>(request);
                 Tech updatedTech = await _techRepository.UpdateAsync(mappedTech);
-                UpdatedTechDto updatedTechDto = _mapper.Map<UpdatedTechDto>(updatedTech);
+                Tech updatedTechResult = await _techRepository.GetAsync(t=>t.Id == updatedTech.Id);
+                UpdatedTechDto updatedTechDto = _mapper.Map<UpdatedTechDto>(updatedTechResult);
 
                 return updatedTechDto;
             }
