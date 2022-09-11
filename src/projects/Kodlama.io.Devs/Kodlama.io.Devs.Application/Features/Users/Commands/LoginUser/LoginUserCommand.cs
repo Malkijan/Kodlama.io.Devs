@@ -37,7 +37,6 @@ namespace Kodlama.io.Devs.Application.Features.Users.Commands.LoginUser
 
             public async Task<AccessToken> Handle(LoginUserCommand request, CancellationToken cancellationToken)
             {
-                await _userBusinessRules.EmailAddressCheck(request.Email);
 
                 User user = await _userRepository.GetAsync(u=>u.Email == request.Email);
                 if (!HashingHelper.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
