@@ -84,8 +84,20 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                 uoc.Property(p => p.OperationClaimId).HasColumnName("OperationClaimId");
             });
 
+            modelBuilder.Entity<Social>(s =>
+            {
+                s.ToTable("Socials").HasKey(k => k.Id);
+                s.Property(p => p.Id).HasColumnName("Id");
+                s.Property(p => p.UserId).HasColumnName("UserId");
+                s.Property(p => p.SocialUrl).HasColumnName("SocialUrl");
+
+                s.HasOne(p => p.User);
+                
+            });
+
             modelBuilder.Entity<Tech>().Navigation(x => x.ProgrammingLanguage).AutoInclude();
             modelBuilder.Entity<ProgrammingLanguage>().Navigation(x => x.Techs).AutoInclude();
+            modelBuilder.Entity<Social>().Navigation(x => x.User).AutoInclude();
 
             ProgrammingLanguage[] programmingLanguageSeedData = { new(1, "c#"), new(2, "Java") };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(programmingLanguageSeedData);

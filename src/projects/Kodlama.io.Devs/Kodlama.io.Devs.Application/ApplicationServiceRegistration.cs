@@ -2,6 +2,7 @@
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules;
+using Kodlama.io.Devs.Application.Features.Socials.Rules;
 using Kodlama.io.Devs.Application.Features.Techs.Rules;
 using Kodlama.io.Devs.Application.Features.Users.Rules;
 using MediatR;
@@ -26,6 +27,7 @@ namespace Kodlama.io.Devs.Application
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<TechBusinessRules>();
             services.AddScoped<UserBusinessRules>();
+            services.AddScoped<SocialBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
