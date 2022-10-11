@@ -6,6 +6,7 @@ using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules;
 using Kodlama.io.Devs.Application.Features.Socials.Rules;
 using Kodlama.io.Devs.Application.Features.Techs.Rules;
+using Kodlama.io.Devs.Application.Features.UserOperationClaims.Rules;
 using Kodlama.io.Devs.Application.Services.AuthService;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace Kodlama.io.Devs.Application
             services.AddScoped<AuthBusinessRules>();
             services.AddScoped<SocialBusinessRules>();
             services.AddScoped<OperationClaimBusinessRules>();
+            services.AddScoped<UserOperationClaimBusinessRules>();
 
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
