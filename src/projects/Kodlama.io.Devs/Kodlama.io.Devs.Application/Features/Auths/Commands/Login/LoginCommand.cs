@@ -34,9 +34,9 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Login
 
             public async Task<LoginedDto> Handle(LoginCommand request, CancellationToken cancellationToken)
             {
-                await _authBusinessRules.UserShouldBeExistWhenLogin(request.userForLoginDto.Email);
-                User? user = await _userRepository.GetAsync(u => u.Email == request.userForLoginDto.Email);
-                _authBusinessRules.CheckIfPasswordIsCorrect(request.userForLoginDto.Password, user.PasswordHash, user.PasswordSalt);
+                await _authBusinessRules.UserShouldBeExistWhenLogin(request.UserForLoginDto.Email);
+                User? user = await _userRepository.GetAsync(u => u.Email == request.UserForLoginDto.Email);
+                _authBusinessRules.CheckIfPasswordIsCorrect(request.UserForLoginDto.Password, user.PasswordHash, user.PasswordSalt);
 
                 AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
                 RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(user, request.IpAddress);

@@ -2,6 +2,7 @@
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using Kodlama.io.Devs.Application.Features.Auths.Rules;
+using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules;
 using Kodlama.io.Devs.Application.Features.Socials.Rules;
 using Kodlama.io.Devs.Application.Features.Techs.Rules;
@@ -29,6 +30,7 @@ namespace Kodlama.io.Devs.Application
             services.AddScoped<TechBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
             services.AddScoped<SocialBusinessRules>();
+            services.AddScoped<OperationClaimBusinessRules>();
 
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
