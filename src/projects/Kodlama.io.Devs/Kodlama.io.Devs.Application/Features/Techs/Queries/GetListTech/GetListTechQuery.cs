@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
+using Kodlama.io.Devs.Application.Features.Techs.Constants;
 using Kodlama.io.Devs.Application.Features.Techs.Dtos;
 using Kodlama.io.Devs.Application.Features.Techs.Models;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -15,9 +17,14 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Techs.Queries.GetListTech
 {
-    public class GetListTechQuery : IRequest<TechListModel>
+    public class GetListTechQuery : IRequest<TechListModel>,ISecuredRequest
     {
         public PageRequest? PageRequest { get; set; }
+        public string[] Roles { get; } =
+{
+        TechRoles.TechAdmin,
+        TechRoles.TechRead
+        };
 
         public class GetListTechQueryHandler : IRequestHandler<GetListTechQuery, TechListModel>
         {

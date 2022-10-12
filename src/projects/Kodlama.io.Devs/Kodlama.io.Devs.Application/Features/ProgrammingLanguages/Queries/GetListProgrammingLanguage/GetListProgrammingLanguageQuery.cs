@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
+using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Constants;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Models;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
@@ -13,9 +15,14 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Queries.GetListProgrammingLanguage
 {
-    public class GetListProgrammingLanguageQuery : IRequest<ProgrammingLanguageListModel>
+    public class GetListProgrammingLanguageQuery : IRequest<ProgrammingLanguageListModel>,ISecuredRequest
     {
         public PageRequest PageRequest { get; set; }
+        public string[] Roles { get; } =
+{
+        ProgrammingLanguageRoles.ProgrammingLanguageAdmin,
+        ProgrammingLanguageRoles.ProgrammingLanguageRead
+    };
 
         public class GetListProgrammingLanguageQueryHandler : IRequestHandler<GetListProgrammingLanguageQuery, ProgrammingLanguageListModel>
         {

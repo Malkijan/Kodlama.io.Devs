@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Constants;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Dtos;
 using Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -12,9 +14,14 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeletedProgrammingLanguageDto>
+    public class DeleteProgrammingLanguageCommand : IRequest<DeletedProgrammingLanguageDto>,ISecuredRequest
     {
         public int Id { get; set; }
+        public string[] Roles { get; } =
+{
+        ProgrammingLanguageRoles.ProgrammingLanguageAdmin,
+        ProgrammingLanguageRoles.ProgrammingLanguageDelete
+    };
 
         public class DeleteProgrammingLangueageCommandHandler : IRequestHandler<DeleteProgrammingLanguageCommand, DeletedProgrammingLanguageDto>
         {

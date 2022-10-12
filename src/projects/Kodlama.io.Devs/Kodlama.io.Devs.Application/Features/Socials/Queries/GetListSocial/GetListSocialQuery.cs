@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
+using Kodlama.io.Devs.Application.Features.Socials.Constants;
 using Kodlama.io.Devs.Application.Features.Socials.Models;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
@@ -13,9 +15,14 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Socials.Queries.GetListSocial
 {
-    public class GetListSocialQuery: IRequest<SocialListModel>
+    public class GetListSocialQuery: IRequest<SocialListModel>,ISecuredRequest
     {
         public PageRequest PageRequest { get; set; }
+        public string[] Roles { get; } =
+{
+        SocialRoles.SocialAdmin,
+        SocialRoles.SocialRead
+        };
 
         public class GetListSocialQueryHandler : IRequestHandler<GetListSocialQuery, SocialListModel>
         {

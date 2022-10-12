@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Application.Features.Socials.Constants;
 using Kodlama.io.Devs.Application.Features.Socials.Dtos;
 using Kodlama.io.Devs.Application.Features.Socials.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -12,10 +14,15 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Socials.Commands.CreateSocial
 {
-    public class CreateSocialCommand : IRequest<CreatedSocialDto>
+    public class CreateSocialCommand : IRequest<CreatedSocialDto>,ISecuredRequest
     {
         public int UserId { get; set; }
         public string SocialUrl { get; set; }
+        public string[] Roles { get; } =
+        {
+        SocialRoles.SocialAdmin,
+        SocialRoles.SocialCreate
+        };
 
         public class CreateSocialCommandHandler : IRequestHandler<CreateSocialCommand, CreatedSocialDto>
         {

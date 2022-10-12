@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Application.Features.Socials.Constants;
 using Kodlama.io.Devs.Application.Features.Socials.Dtos;
 using Kodlama.io.Devs.Application.Features.Socials.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -12,9 +14,14 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Socials.Commands.DeleteSocial
 {
-    public class DeleteSocialCommand:IRequest<DeletedSocialDto>
+    public class DeleteSocialCommand:IRequest<DeletedSocialDto>,ISecuredRequest
     {
         public int Id { get; set; }
+        public string[] Roles { get; } =
+{
+        SocialRoles.SocialAdmin,
+        SocialRoles.SocialDelete
+        };
 
         public class DeleteSocialCommandHandler : IRequestHandler<DeleteSocialCommand, DeletedSocialDto>
         {
