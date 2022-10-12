@@ -35,8 +35,8 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         if (include != null) queryable = include(queryable);
         if (predicate != null) queryable = queryable.Where(predicate);
         if (orderBy != null)
-            return await orderBy(queryable).ToPaginateAsync(index, size, 0, cancellationToken);
-        return await queryable.ToPaginateAsync(index, size, 0, cancellationToken);
+            return await orderBy(queryable).AsNoTracking().ToPaginateAsync(index, size, 0, cancellationToken);
+        return await queryable.AsNoTracking().ToPaginateAsync(index, size, 0, cancellationToken);
     }
 
     public async Task<IPaginate<TEntity>> GetListByDynamicAsync(Dynamic.Dynamic dynamic,

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
-using Kodlama.io.Devs.Application.Features.OperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Constants;
+using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.DeleteUserOperationClaim
 {
-    public class DeleteUserOperationClaimCommand : IRequest<DeletedOperationClaimDto>,ISecuredRequest
+    public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClaimDto>,ISecuredRequest
     {
         public int Id { get; set; }
         public string[] Roles { get; } =
@@ -22,7 +22,7 @@ namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.Dele
         UserOperationClaimRoles.UserOperationClaimDelete
         };
 
-        public class DeleteUserOperationClaimCommandHandler : IRequestHandler<DeleteUserOperationClaimCommand, DeletedOperationClaimDto>
+        public class DeleteUserOperationClaimCommandHandler : IRequestHandler<DeleteUserOperationClaimCommand, DeletedUserOperationClaimDto>
         {
             private readonly IUserOperationClaimRepository _userOperationClaimRepository;
             private readonly UserOperationClaimBusinessRules _userOperationClaimBusinessRules;
@@ -36,13 +36,13 @@ namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.Dele
                 _mapper = mapper;
             }
 
-            public async Task<DeletedOperationClaimDto> Handle(DeleteUserOperationClaimCommand request, CancellationToken cancellationToken)
+            public async Task<DeletedUserOperationClaimDto> Handle(DeleteUserOperationClaimCommand request, CancellationToken cancellationToken)
             {
                 await _userOperationClaimBusinessRules.UserOperationClaimIdShouldBeExist(request.Id);
 
                 var userOperationClaim = await _userOperationClaimRepository.GetAsync(x => x.Id == request.Id);
                 var deletedUserOperationClaim = await _userOperationClaimRepository.DeleteAsync(userOperationClaim);
-                var mappedDeletedUserOperationClaim = _mapper.Map<DeletedOperationClaimDto>(deletedUserOperationClaim);
+                var mappedDeletedUserOperationClaim = _mapper.Map<DeletedUserOperationClaimDto>(deletedUserOperationClaim);
                 return mappedDeletedUserOperationClaim;
             }
         }

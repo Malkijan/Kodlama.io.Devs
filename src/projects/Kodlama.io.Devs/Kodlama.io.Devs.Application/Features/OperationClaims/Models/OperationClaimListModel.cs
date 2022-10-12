@@ -1,4 +1,5 @@
 ﻿using Core.Persistence.Paging;
+using Kodlama.io.Devs.Application.Features.OperationClaims.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Models
 {
     public class OperationClaimListModel : BasePageableModel
     {
-        public IList<OperationClaimListModel> Items { get; set; }
+        public IList<OperationClaimListDto> Items { get; set; }
     }
 }

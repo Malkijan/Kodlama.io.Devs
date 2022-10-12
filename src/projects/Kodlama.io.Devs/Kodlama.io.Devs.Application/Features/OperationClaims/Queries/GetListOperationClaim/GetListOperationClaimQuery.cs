@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
+using Core.Persistence.Paging;
+using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Constants;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Models;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -35,11 +37,11 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Queries.GetListOp
 
             public async Task<OperationClaimListModel> Handle(GetListOperationClaimQuery request, CancellationToken cancellationToken)
             {
-                var operationClaims = await _operationClaimRepository.GetListAsync(index: request.PageRequest.Page,
+                IPaginate<OperationClaim> operationClaims = await _operationClaimRepository.GetListAsync(index: request.PageRequest.Page,
                     size:request.PageRequest.PageSize,
                     cancellationToken: cancellationToken);
 
-                var operationClaimListModel = _mapper.Map<OperationClaimListModel>(operationClaims);
+                OperationClaimListModel operationClaimListModel = _mapper.Map<OperationClaimListModel>(operationClaims);
                 return operationClaimListModel;
             }
         }
